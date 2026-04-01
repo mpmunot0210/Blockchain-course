@@ -1,0 +1,89 @@
+/* ─── App Shell ─── */
+.app-shell {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+}
+
+@media (max-width: 600px) {
+  .app-shell { padding: 20px 14px 48px; }
+}
+
+/* ─── Badges ─── */
+.badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 4px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+/* ─── Buttons ─── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.btn-primary:hover { opacity: 0.9; }
+.btn-primary:active { transform: scale(0.98); }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: var(--c-text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+.btn-ghost:hover { color: var(--c-text); }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  background: transparent;
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--c-text);
+  transition: all 0.15s;
+}
+.btn-outline:hover {
+  border-color: var(--c-border-hover);
+  background: var(--c-surface);
+}
+
+/* ─── Module Row Hover ─── */
+.module-row {
+  transition: border-color 0.15s, background 0.15s;
+}
+.module-row:hover {
+  border-color: var(--c-border-hover) !important;
+}
+
+/* ─── Animations ─── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
