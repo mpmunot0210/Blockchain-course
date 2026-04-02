@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { COURSE_DATA } from "./courseData.js";
+import { useState, useEffect, useMemo } from "react";
+import { getCourseDataWithLectures } from "./mergeData.js";
 import "./app.css";
 
 /* ─── Icons ─── */
@@ -259,11 +259,11 @@ function ModuleView({ mod, week, onBack, completed, onMarkComplete }) {
 }
 
 /* ─── Syllabus View ─── */
-function SyllabusView({ onOpenModule, completedModules }) {
+function SyllabusView({ courseData, onOpenModule, completedModules }) {
   const [expanded, setExpanded] = useState({ 1: true, 2: false, 3: false, 4: false });
   const toggle = (id) => setExpanded(e => ({ ...e, [id]: !e[id] }));
 
-  const totalMods = COURSE_DATA.weeks.reduce((s, w) => s + w.modules.length, 0);
+  const totalMods = courseData.weeks.reduce((s, w) => s + w.modules.length, 0);
   const doneMods = completedModules.length;
   const pct = Math.round((doneMods / totalMods) * 100);
 
@@ -273,7 +273,7 @@ function SyllabusView({ onOpenModule, completedModules }) {
       <div style={{ marginBottom: 32 }}>
         <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: 1.5, color: "var(--c-text-hint)", margin: "0 0 8px", textTransform: "uppercase" }}>MIT Sloan–caliber curriculum</p>
         <h1 style={{ fontSize: 28, fontWeight: 500, margin: "0 0 8px", lineHeight: 1.3 }}>Blockchain technologies:<br/>business innovation & application</h1>
-        <p style={{ fontSize: 14, color: "var(--c-text-muted)", margin: "0 0 20px" }}>{COURSE_DATA.meta}</p>
+        <p style={{ fontSize: 14, color: "var(--c-text-muted)", margin: "0 0 20px" }}>{courseData.meta}</p>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 10, marginBottom: 16 }}>
           {[
@@ -293,7 +293,7 @@ function SyllabusView({ onOpenModule, completedModules }) {
 
       {/* Weeks */}
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        {COURSE_DATA.weeks.map(week => {
+        {courseData.weeks.map(week => {
           const c = getColor(week.colorVar);
           const wDone = week.modules.filter(m => completedModules.includes(m.id)).length;
           const open = expanded[week.id];
@@ -349,6 +349,7 @@ function SyllabusView({ onOpenModule, completedModules }) {
 
 /* ─── App Shell ─── */
 export default function App() {
+  const courseData = useMemo(() => getCourseDataWithLectures(), []);
   const [view, setView] = useState("syllabus");
   const [activeMod, setActiveMod] = useState(null);
   const [activeWeek, setActiveWeek] = useState(null);
@@ -370,7 +371,7 @@ export default function App() {
   return (
     <div className="app-shell">
       {view === "syllabus" && (
-        <SyllabusView onOpenModule={openModule} completedModules={completed} />
+        <SyllabusView courseData={courseData} onOpenModule={openModule} completedModules={completed} />
       )}
       {view === "module" && activeMod && activeWeek && (
         <ModuleView mod={activeMod} week={activeWeek} onBack={goBack} completed={completed.includes(activeMod.id)} onMarkComplete={markComplete} />
