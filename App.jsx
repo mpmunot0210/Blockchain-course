@@ -260,7 +260,7 @@ function ModuleView({ mod, week, onBack, completed, onMarkComplete }) {
 
 /* ─── Syllabus View ─── */
 function SyllabusView({ courseData, onOpenModule, completedModules }) {
-  const [expanded, setExpanded] = useState({ 1: true, 2: false, 3: false, 4: false });
+  const [expanded, setExpanded] = useState({ 1: true, 2: false, 3: false, 4: false, 5: false });
   const toggle = (id) => setExpanded(e => ({ ...e, [id]: !e[id] }));
 
   const totalMods = courseData.weeks.reduce((s, w) => s + w.modules.length, 0);
